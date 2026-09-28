@@ -57,9 +57,9 @@ New in `gameai.common`:
   mutates `Wall2D` objects; ours are immutable.
 - **The brain is a `Protocol`**, so the bot doesn't depend on how decisions are made. This
   lets chapter 9 swap in `Goal_Think`.
-- **Weapon desirability is a crisp stand-in** in this phase: 100 at the weapon's ideal range,
-  falling linearly to 0 at twice (or zero times) that range, and 0 without ammo. Chapter 10
-  replaces it with the book's fuzzy modules.
+- **Weapon desirability was a crisp stand-in** in this phase: 100 at the weapon's ideal
+  range, falling linearly to 0 at twice (or zero times) that range, and 0 without ammo.
+  Chapter 10 replaced it with the book's fuzzy modules (`raven.weapon_fuzzy`).
 - **The path costs table** (`CreateAllPairsCostsTable`) is computed lazily, the first time it's
   needed: chapter 9's item-seeking evaluators use it. The C++ code builds it at load time.
 - **Parameters** (`Params.lua`) are in `raven/params.toml`.

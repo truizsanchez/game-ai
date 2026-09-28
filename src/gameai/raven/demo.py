@@ -54,7 +54,7 @@ class RavenDemo(Demo):
         "Q+right click: queue  X: release",
         "Up/Down: add/remove bot",
         "G: graph  L: labels  M: map",
-        "S: path smoothing",
+        "S: path smoothing  W: weapon scores",
     )
     WEAPON_KEYS: ClassVar[dict[int, EntityType]] = {
         arcade.key.KEY_1: EntityType.BLASTER,
@@ -69,6 +69,7 @@ class RavenDemo(Demo):
         self.show_graph = False
         self.show_labels = True
         self.smoothing_index = 0
+        self.show_weapon_scores = False
         self.text = arcade.Text("", 0, 0, arcade.color.WHITE, 9)
         self.game = self._new_game()
 
@@ -106,6 +107,8 @@ class RavenDemo(Demo):
             self.show_graph = not self.show_graph
         elif symbol == arcade.key.L:
             self.show_labels = not self.show_labels
+        elif symbol == arcade.key.W:
+            self.show_weapon_scores = not self.show_weapon_scores
         elif symbol == arcade.key.S:
             self.smoothing_index = (self.smoothing_index + 1) % len(SMOOTHING)
             self._apply_smoothing()
@@ -211,6 +214,12 @@ class RavenDemo(Demo):
                 self.line(edge.source, edge.destination, arcade.color.BLUE, 2)
         if isinstance(bot.brain, GoalThink):
             self.draw_goals(bot.brain)
+        if self.show_weapon_scores:
+            y = 12.0
+            for weapon in bot.weapons.inventory.values():  # fuzzy scores from the last selection
+                text = f"{weapon.type.label}: {weapon.last_desirability:.0f}"
+                self.label(text, screen(bot.position) + Vector2D(14, y), arcade.color.YELLOW)
+                y -= 12
         draw_circle(screen(bot.position), (bot.bounding_radius + 3) * SCALE, color, filled=False)
         for opponent in bot.memory.recently_sensed_opponents():
             if opponent.is_alive:
