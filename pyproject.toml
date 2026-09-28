@@ -24,6 +24,8 @@ dev = [
 [tool.ruff]
 line-length = 100
 target-version = "py313"
+# Chapter 6 game scripts run with names injected by the host, so they are not linted as modules.
+extend-exclude = ["src/gameai/ch06_scripting/scripts"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "RUF", "PL", "PTH"]
@@ -41,6 +43,7 @@ addopts = "--import-mode=importlib"
 [tool.mypy]
 strict = true
 files = ["src", "tests"]
+exclude = ["src/gameai/ch06_scripting/scripts/"]
 
 [[tool.mypy.overrides]]
 module = ["arcade.*", "pyglet.*"]
