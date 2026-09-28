@@ -15,11 +15,11 @@ import math
 import random
 from collections import deque
 from collections.abc import Callable, Iterator
-from typing import Self
+from typing import Any, Self
 
 from gameai.common.graph import GraphEdge, NavGraphNode, SparseGraph
 
-type Graph = SparseGraph[NavGraphNode, GraphEdge]
+type Graph = SparseGraph[NavGraphNode, Any]
 type Heuristic = Callable[[Graph, int, int], float]
 
 
@@ -56,7 +56,7 @@ class GraphSearch:
     @property
     def cost_to_target(self) -> float:
         path = self.path_to_target()
-        return sum(self.graph.edge(a, b).cost for a, b in itertools.pairwise(path))
+        return float(sum(self.graph.edge(a, b).cost for a, b in itertools.pairwise(path)))
 
 
 class DepthFirstSearch(GraphSearch):

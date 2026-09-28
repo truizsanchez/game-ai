@@ -81,8 +81,10 @@ class Demo(arcade.View):
                 self.step(self.window.fixed_delta_time)
             case arcade.key.H:
                 self.show_help = not self.show_help
-            case _ if arcade.key.KEY_1 <= symbol <= arcade.key.KEY_9 and isinstance(
-                self.window, DemoWindow
+            case _ if (
+                arcade.key.KEY_1 <= symbol <= arcade.key.KEY_9
+                and isinstance(self.window, DemoWindow)
+                and symbol - arcade.key.KEY_1 < len(self.window.demos) > 1
             ):
                 self.window.show_demo(symbol - arcade.key.KEY_1)
             case _:

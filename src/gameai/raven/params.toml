@@ -1,0 +1,113 @@
+# Raven parameters (C++ Params.lua). Physics is per tick (60 ticks per second); times are
+# in seconds and frequencies in times per second.
+
+num_bots = 3
+max_search_cycles_per_update_step = 1000
+start_map = "Raven_DM1.map"
+num_cells_x = 10
+num_cells_y = 10
+grave_lifetime = 5.0
+frame_rate = 60
+
+[bot]
+max_health = 100
+max_speed = 1.0
+mass = 1.0
+max_force = 1.0
+max_head_turn_rate = 0.2
+scale = 0.8
+max_swimming_speed = 0.2  # max_speed * 0.2
+max_crawling_speed = 0.6  # max_speed * 0.6
+weapon_selection_frequency = 2.0
+goal_appraisal_update_freq = 4.0
+targeting_update_freq = 2.0
+trigger_update_freq = 8.0
+vision_update_freq = 4.0
+fov = 180.0  # degrees
+reaction_time = 0.2
+aim_persistance = 1.0
+aim_accuracy = 0.0
+hit_flash_time = 0.2
+memory_span = 5.0
+health_goal_tweaker = 1.0
+shotgun_goal_tweaker = 1.0
+railgun_goal_tweaker = 1.0
+rocket_launcher_tweaker = 1.0
+aggro_goal_tweaker = 1.0
+
+[steering]
+separation_weight = 10.0
+wall_avoidance_weight = 10.0
+wander_weight = 1.0
+seek_weight = 0.5
+arrive_weight = 1.0
+view_distance = 15.0
+wall_detection_feeler_length = 20.0  # 25 * bot scale
+waypoint_seek_dist = 5.0
+
+[items]
+default_giver_trigger_range = 10.0
+health_respawn_delay = 10.0
+weapon_respawn_delay = 15.0
+
+[weapons.blaster]
+firing_freq = 3.0
+default_rounds = 0  # the blaster never runs out
+max_rounds_carried = 0
+ideal_range = 50.0
+sound_range = 100.0
+projectile = "bolt"
+
+[weapons.rocket_launcher]
+firing_freq = 1.5
+default_rounds = 15
+max_rounds_carried = 50
+ideal_range = 150.0
+sound_range = 400.0
+projectile = "rocket"
+
+[weapons.rail_gun]
+firing_freq = 1.0
+default_rounds = 15
+max_rounds_carried = 50
+ideal_range = 200.0
+sound_range = 400.0
+projectile = "slug"
+
+[weapons.shotgun]
+firing_freq = 1.0
+default_rounds = 15
+max_rounds_carried = 50
+ideal_range = 100.0
+sound_range = 400.0
+projectile = "pellet"
+num_balls_in_shell = 10
+spread = 0.05
+
+[projectiles.bolt]
+max_speed = 5.0
+mass = 1.0
+max_force = 100.0
+damage = 1
+
+[projectiles.rocket]
+max_speed = 3.0
+mass = 1.0
+max_force = 10.0
+damage = 10
+blast_radius = 20.0
+explosion_decay_rate = 2.0
+
+[projectiles.slug]
+max_speed = 5000.0
+mass = 0.1
+max_force = 10000.0
+damage = 10
+persistance = 0.2
+
+[projectiles.pellet]
+max_speed = 5000.0
+mass = 0.1
+max_force = 1000.0
+damage = 1
+persistance = 0.1

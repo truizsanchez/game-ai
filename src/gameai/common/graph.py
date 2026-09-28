@@ -11,17 +11,18 @@ from __future__ import annotations
 import dataclasses
 from collections.abc import Iterator
 from dataclasses import dataclass
+from enum import IntFlag
 from typing import Any, Self
 
 from gameai.common.vector2d import Vector2D
 
 
-@dataclass
+@dataclass(eq=False)
 class GraphNode:
     index: int
 
 
-@dataclass
+@dataclass(eq=False)
 class NavGraphNode(GraphNode):
     """A node with a position, for navigation graphs. ``extra`` holds game-specific data."""
 
@@ -37,6 +38,27 @@ class GraphEdge:
 
     def reversed(self) -> Self:
         return dataclasses.replace(self, from_index=self.to_index, to_index=self.from_index)
+
+
+class EdgeBehavior(IntFlag):
+    """How an agent must travel along a navigation edge (C++ ``NavGraphEdge`` flags)."""
+
+    NORMAL = 0
+    SWIM = 1 << 0
+    CRAWL = 1 << 1
+    CREEP = 1 << 2  # the C++ enum gives CREEP and JUMP the same bit (1 << 3)
+    JUMP = 1 << 3
+    FLY = 1 << 4
+    GRAPPLE = 1 << 5
+    GOES_THROUGH_DOOR = 1 << 6
+
+
+@dataclass
+class NavGraphEdge(GraphEdge):
+    """An edge annotated with how to traverse it and the entity in the way (e.g. a door)."""
+
+    flags: EdgeBehavior = EdgeBehavior.NORMAL
+    intersecting_entity: int = -1
 
 
 class SparseGraph[N: GraphNode, E: GraphEdge]:
@@ -62,6 +84,12 @@ class SparseGraph[N: GraphNode, E: GraphEdge]:
         else:
             raise ValueError(f"node index {node.index} skips {len(self._nodes)}")
         return node.index
+
+    def add_removed_slot(self) -> int:
+        """Reserve the next index as an already-removed node (graph files contain these)."""
+        self._nodes.append(None)
+        self._edges.append({})
+        return len(self._nodes) - 1
 
     def remove_node(self, index: int) -> None:
         """Remove a node and every edge touching it."""

@@ -78,7 +78,7 @@ Progress: `[x]` merged into `main`, `[ ]` pending.
 - Same learning goals as the book (why scripting, data-driven design, exposing engine API, scripted FSM) but with
   Python modules loaded at runtime (`importlib`, hot-reload, sandboxing caveats) + TOML/data config. Scripted WestWorld FSM.
 
-**[ ] Phase 7 — Ch.7 Raven overview (game framework)**
+**[x] Phase 7 — Ch.7 Raven overview (game framework)**
 - Map loading (reuse original `.map` files), bots, weapons, projectiles, triggers, sensory memory, target selection;
   arcade rendering. Bots initially dumb — AI added in 8–10.
 
