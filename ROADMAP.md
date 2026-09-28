@@ -44,52 +44,54 @@ Stack: uv, ruff (lint+format), pytest, pyright/mypy, dataclasses/Protocols/Enums
 
 ## Phases
 
-**Phase 0 — Book to Markdown + project bootstrap**
+Progress: `[x]` merged into `main`, `[ ]` pending.
+
+**[x] Phase 0 — Book to Markdown + project bootstrap**
 - Install uv; extract CHM (pure-Python or `pychm`/`7z` via uv tool), HTML→MD (markdownify/pandoc), one file per chapter + images,
   output to `game-ai-private/book-md/`. Preserve code listings as fenced C++ blocks.
 - Repo skeleton: pyproject, ruff/pytest config, `.gitignore`, README, CLAUDE.md with conventions, GitHub Actions CI (lint+tests).
 - Map book chapter ↔ C++ project/`Common/` modules ↔ our package (table in README). Config files
   (`Params.ini`, `Params.lua`) become TOML; original `.map` files are reused as-is (copied into the repo only if licence allows, else loaded from the private path).
 
-**Phase 1 — Ch.1 Math & Physics primer → `gameai.common`**
+**[x] Phase 1 — Ch.1 Math & Physics primer → `gameai.common`**
 - 2D vector, matrices/transforms, local↔world space, basic kinematics, utils (random, clamp, float compare).
   Decide: own `Vector2D` dataclass vs. arcade/pyglet `Vec2` (lean to reuse `pyglet.math.Vec2` if it covers needs).
 - Minimal arcade demo harness (window, fixed timestep loop, debug draw toggles) reused by all later chapters.
 
-**Phase 2 — Ch.2 State-driven agent design (WestWorld)**
+**[x] Phase 2 — Ch.2 State-driven agent design (WestWorld)**
 - Console-only first (as in the book): WestWorld1 → WithWoman → WithMessaging (telegrams, dispatcher, delayed messages).
 - Pythonic FSM: states as singletons/objects vs. Enum + match; global/previous state, blips. Optional arcade text view.
 
-**Phase 3 — Ch.3 Autonomous moving agents (Steering)**
+**[ ] Phase 3 — Ch.3 Autonomous moving agents (Steering)**
 - Vehicle/MovingEntity, all steering behaviors (seek, flee, arrive, pursuit, evade, wander, obstacle/wall avoidance,
   interpose, hide, path following, offset pursuit, flocking), combination strategies, cell-space partitioning, smoothing.
 - arcade interactive demo with toggles (as the original's menu).
 
-**Phase 4 — Ch.4 Sports simulation (Simple Soccer)**
+**[ ] Phase 4 — Ch.4 Sports simulation (Simple Soccer)**
 - Pitch, ball physics, teams/players with FSMs + messaging + steering (reuses Phases 2–3), support spots, params file (TOML).
 
-**Phase 5 — Ch.5 The secret life of graphs**
+**[ ] Phase 5 — Ch.5 The secret life of graphs**
 - Sparse graph, nodes/edges, navgraphs; DFS, BFS, Dijkstra, A* (heuristics), time-sliced search groundwork.
   Pythonic: generators for search steps (great for visualizing), `heapq`. arcade Pathfinder tool (paint terrain, pick algorithm).
 
-**Phase 6 — Ch.6 To script or not to script (Python reinterpretation)**
+**[ ] Phase 6 — Ch.6 To script or not to script (Python reinterpretation)**
 - Same learning goals as the book (why scripting, data-driven design, exposing engine API, scripted FSM) but with
   Python modules loaded at runtime (`importlib`, hot-reload, sandboxing caveats) + TOML/data config. Scripted WestWorld FSM.
 
-**Phase 7 — Ch.7 Raven overview (game framework)**
+**[ ] Phase 7 — Ch.7 Raven overview (game framework)**
 - Map loading (reuse original `.map` files), bots, weapons, projectiles, triggers, sensory memory, target selection;
   arcade rendering. Bots initially dumb — AI added in 8–10.
 
-**Phase 8 — Ch.8 Practical path planning**
+**[ ] Phase 8 — Ch.8 Practical path planning**
 - Navgraph from map, path smoothing, time-sliced path planning (generators), path manager, edge annotations, graph search as a service.
 
-**Phase 9 — Ch.9 Goal-driven agent behavior**
+**[ ] Phase 9 — Ch.9 Goal-driven agent behavior**
 - Composite goals (think → evaluators → subgoals), arbitration, goal queueing, hierarchical debugging display.
 
-**Phase 10 — Ch.10 Fuzzy logic**
+**[ ] Phase 10 — Ch.10 Fuzzy logic**
 - Fuzzy sets/variables/rules/module, hedges, defuzzification (MaxAv, centroid), Combs method; weapon selection in Raven.
 
-**Phase 11 (optional) — Wrap-up**
+**[ ] Phase 11 (optional) — Wrap-up**
 - Appendices only where relevant (C++ templates/UML → skip or replace with Python notes), cross-chapter refactors, docs polish.
 
 ## Working method (every chapter phase)
