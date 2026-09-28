@@ -13,11 +13,11 @@ from gameai.common.sources import original_file
 from gameai.common.vector2d import Vector2D, is_in_fov
 from gameai.raven.bot import Brain, RavenBot
 from gameai.raven.entity_types import BotStatus, EntityType, Message
+from gameai.raven.goal_think import GoalThink
 from gameai.raven.items import GraveMarkers
 from gameai.raven.map import RavenMap
 from gameai.raven.navigation import PathManager
 from gameai.raven.params import Params, load
-from gameai.raven.path_brain import PathBrain
 from gameai.raven.projectiles import Projectile
 
 RAVEN_DIR = "Buckland_Chapter7 to 10_Raven"
@@ -33,7 +33,7 @@ class RavenGame:
     map_path: Path
     params: Params = field(default_factory=load)
     rng: random.Random = field(default_factory=random.Random)
-    brain_factory: Callable[[RavenBot], Brain] = PathBrain
+    brain_factory: Callable[[RavenBot], Brain] = GoalThink
     tick: int = field(default=0, init=False)
     bots: list[RavenBot] = field(default_factory=list, init=False)
     projectiles: list[Projectile] = field(default_factory=list, init=False)

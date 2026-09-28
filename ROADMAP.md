@@ -85,7 +85,7 @@ Progress: `[x]` merged into `main`, `[ ]` pending.
 **[x] Phase 8 — Ch.8 Practical path planning**
 - Navgraph from map, path smoothing, time-sliced path planning (generators), path manager, edge annotations, graph search as a service.
 
-**[ ] Phase 9 — Ch.9 Goal-driven agent behavior**
+**[x] Phase 9 — Ch.9 Goal-driven agent behavior**
 - Composite goals (think → evaluators → subgoals), arbitration, goal queueing, hierarchical debugging display.
 
 **[ ] Phase 10 — Ch.10 Fuzzy logic**
