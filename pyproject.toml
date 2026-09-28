@@ -31,6 +31,7 @@ ignore = ["PLR2004"]  # magic numbers are everywhere in game/AI tuning code
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+addopts = "--import-mode=importlib"
 
 [tool.mypy]
 strict = true
