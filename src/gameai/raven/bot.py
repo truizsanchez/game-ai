@@ -13,6 +13,7 @@ from gameai.common.messaging import Telegram
 from gameai.common.regulator import Regulator
 from gameai.common.vector2d import UNIT_X, ZERO, Vector2D
 from gameai.raven.entity_types import BotStatus, EntityType, Message
+from gameai.raven.navigation import PathPlanner
 from gameai.raven.perception import SensoryMemory, TargetingSystem
 from gameai.raven.steering import Behavior, RavenSteering
 from gameai.raven.weapons import WeaponSystem
@@ -70,6 +71,7 @@ class RavenBot(MovingEntity):
         self.target_selection_regulator = Regulator(p.targeting_update_freq, clock, rng)
         self.trigger_test_regulator = Regulator(p.trigger_update_freq, clock, rng)
         self.vision_update_regulator = Regulator(p.vision_update_freq, clock, rng)
+        self.path_planner = PathPlanner(self)
         self.brain: Brain = world.make_brain(self)
 
     def __repr__(self) -> str:

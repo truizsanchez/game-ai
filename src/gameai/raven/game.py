@@ -15,9 +15,10 @@ from gameai.raven.bot import Brain, RavenBot
 from gameai.raven.entity_types import BotStatus, EntityType, Message
 from gameai.raven.items import GraveMarkers
 from gameai.raven.map import RavenMap
+from gameai.raven.navigation import PathManager
 from gameai.raven.params import Params, load
+from gameai.raven.path_brain import PathBrain
 from gameai.raven.projectiles import Projectile
-from gameai.raven.simple_brain import WanderBrain
 
 RAVEN_DIR = "Buckland_Chapter7 to 10_Raven"
 
@@ -32,7 +33,7 @@ class RavenGame:
     map_path: Path
     params: Params = field(default_factory=load)
     rng: random.Random = field(default_factory=random.Random)
-    brain_factory: Callable[[RavenBot], Brain] = WanderBrain
+    brain_factory: Callable[[RavenBot], Brain] = PathBrain
     tick: int = field(default=0, init=False)
     bots: list[RavenBot] = field(default_factory=list, init=False)
     projectiles: list[Projectile] = field(default_factory=list, init=False)
@@ -56,6 +57,7 @@ class RavenGame:
         self.entities: EntityRegistry[Receiver] = EntityRegistry()
         self.dispatcher = MessageDispatcher(self.entities, self.clock)
         self.graves = GraveMarkers(self.params.grave_lifetime)
+        self.path_manager = PathManager(self.params.max_search_cycles_per_update_step)
         self.map = RavenMap.load(path, self.params, self.dispatcher, self.entities)
         self.map_path = path
         self._next_bot_id = self.map.max_entity_id + 1
@@ -86,6 +88,7 @@ class RavenGame:
         if bot is self.selected_bot:
             self.selected_bot = None
         self.entities.remove(bot)
+        self.path_manager.unregister(bot.path_planner)
         for other in self.bots:
             self.dispatcher.dispatch(
                 Message.USER_HAS_REMOVED_BOT, SENDER_IRRELEVANT, other.id, extra=bot
@@ -100,6 +103,7 @@ class RavenGame:
         self.graves.update(self.clock())
         if self.possessed_bot is not None:
             self.possessed_bot.rotate_facing_toward(self.cursor)
+        self.path_manager.update_searches()
         self.map.update_doors()
         self.projectiles = [p for p in self.projectiles if not p.dead]
         for projectile in self.projectiles:

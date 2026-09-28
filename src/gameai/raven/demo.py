@@ -19,9 +19,12 @@ from gameai.raven.bot import SHAPE, RavenBot
 from gameai.raven.entity_types import EntityType
 from gameai.raven.game import RavenGame, original_map
 from gameai.raven.items import HealthGiver, WeaponGiver
+from gameai.raven.navigation import smooth_precise, smooth_quick
+from gameai.raven.path_brain import PathBrain
 from gameai.raven.projectiles import Bolt, Pellet, Projectile, Rocket, Slug
 
 MAPS = ("Raven_DM1.map", "Raven_DM1_With_Doors.map")
+SMOOTHING = (("off", None), ("quick", smooth_quick), ("precise", smooth_precise))
 SCALE = 1.15
 OFFSET = Vector2D(WIDTH - 500 * SCALE - 10, (HEIGHT - 470 * SCALE) / 2 - 10)
 ITEM_COLORS: dict[EntityType, Color] = {
@@ -48,6 +51,7 @@ class RavenDemo(Demo):
         "Q+right click: queue  X: release",
         "Up/Down: add/remove bot",
         "G: graph  L: labels  M: map",
+        "S: path smoothing",
     )
     WEAPON_KEYS: ClassVar[dict[int, EntityType]] = {
         arcade.key.KEY_1: EntityType.BLASTER,
@@ -61,6 +65,7 @@ class RavenDemo(Demo):
         self.map_index = 0
         self.show_graph = False
         self.show_labels = True
+        self.smoothing_index = 0
         self.text = arcade.Text("", 0, 0, arcade.color.WHITE, 9)
         self.game = self._new_game()
 
@@ -98,12 +103,21 @@ class RavenDemo(Demo):
             self.show_graph = not self.show_graph
         elif symbol == arcade.key.L:
             self.show_labels = not self.show_labels
+        elif symbol == arcade.key.S:
+            self.smoothing_index = (self.smoothing_index + 1) % len(SMOOTHING)
+            self._apply_smoothing()
         elif symbol == arcade.key.M:
             self.map_index = (self.map_index + 1) % len(MAPS)
             self.game = self._new_game()
+            self._apply_smoothing()
         else:
             return super().on_key_press(symbol, modifiers)
         return True
+
+    def _apply_smoothing(self) -> None:
+        _, smoothing = SMOOTHING[self.smoothing_index]
+        for bot in self.game.bots:
+            bot.path_planner.smoothing = smoothing
 
     # --- drawing -------------------------------------------------------------------------------
     def label(self, text: str, at: Vector2D, color: Color = arcade.color.WHITE) -> None:
@@ -189,6 +203,9 @@ class RavenDemo(Demo):
         if bot is None or not bot.is_alive:
             return
         color = arcade.color.SKY_BLUE if bot.possessed else arcade.color.RED
+        if isinstance(bot.brain, PathBrain):
+            for edge in bot.brain.path:
+                self.line(edge.source, edge.destination, arcade.color.BLUE, 2)
         draw_circle(screen(bot.position), (bot.bounding_radius + 3) * SCALE, color, filled=False)
         for opponent in bot.memory.recently_sensed_opponents():
             if opponent.is_alive:
@@ -203,7 +220,11 @@ class RavenDemo(Demo):
 
     def status_line(self) -> str:
         game, bot = self.game, self.game.selected_bot
-        base = f"{game.map_path.name}  t={game.clock():.0f}s  bots {len(game.bots)}"
+        smoothing, _ = SMOOTHING[self.smoothing_index]
+        base = (
+            f"{game.map_path.name}  t={game.clock():.0f}s  bots {len(game.bots)}  "
+            f"smoothing {smoothing}"
+        )
         if bot is None:
             return base + "  |  right-click a bot to select it"
         weapon = bot.weapons.current
