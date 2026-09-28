@@ -74,7 +74,7 @@ Progress: `[x]` merged into `main`, `[ ]` pending.
 - Sparse graph, nodes/edges, navgraphs; DFS, BFS, Dijkstra, A* (heuristics), time-sliced search groundwork.
   Pythonic: generators for search steps (great for visualizing), `heapq`. arcade Pathfinder tool (paint terrain, pick algorithm).
 
-**[ ] Phase 6 — Ch.6 To script or not to script (Python reinterpretation)**
+**[x] Phase 6 — Ch.6 To script or not to script (Python reinterpretation)**
 - Same learning goals as the book (why scripting, data-driven design, exposing engine API, scripted FSM) but with
   Python modules loaded at runtime (`importlib`, hot-reload, sandboxing caveats) + TOML/data config. Scripted WestWorld FSM.
 
