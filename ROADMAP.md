@@ -67,7 +67,7 @@ Progress: `[x]` merged into `main`, `[ ]` pending.
   interpose, hide, path following, offset pursuit, flocking), combination strategies, cell-space partitioning, smoothing.
 - arcade interactive demo with toggles (as the original's menu).
 
-**[ ] Phase 4 — Ch.4 Sports simulation (Simple Soccer)**
+**[x] Phase 4 — Ch.4 Sports simulation (Simple Soccer)**
 - Pitch, ball physics, teams/players with FSMs + messaging + steering (reuses Phases 2–3), support spots, params file (TOML).
 
 **[ ] Phase 5 — Ch.5 The secret life of graphs**

@@ -1,0 +1,54 @@
+# Simple Soccer parameters (C++ Params.ini). Physics is per tick: speeds are pixels per tick
+# and forces are applied once per tick, as in the original.
+
+goal_width = 100.0
+
+# support spot calculator
+num_support_spots_x = 13
+num_support_spots_y = 6
+spot_pass_safe_score = 2.0
+spot_can_score_from_position_score = 1.0
+spot_dist_from_controlling_player_score = 2.0
+spot_closeness_to_supporting_player_score = 0.0
+spot_ahead_of_attacker_score = 0.0
+support_spot_update_freq = 1.0  # per second
+
+chance_player_attempts_pot_shot = 0.005
+chance_of_using_arrive_type_receive_behavior = 0.5
+
+ball_size = 5.0
+ball_mass = 1.0
+friction = -0.015
+
+keeper_in_ball_range = 10.0
+player_in_target_range = 10.0
+player_kicking_distance = 6.0
+player_kick_frequency = 8.0  # kicks per second
+
+player_mass = 3.0
+player_max_force = 1.0
+player_max_speed_with_ball = 1.2
+player_max_speed_without_ball = 1.6
+player_max_turn_rate = 0.4
+player_scale = 1.0
+player_comfort_zone = 60.0
+player_kicking_accuracy = 0.99
+
+num_attempts_to_find_valid_strike = 5
+max_dribble_force = 1.5
+max_shooting_force = 6.0
+max_passing_force = 3.0
+
+within_range_of_home = 15.0
+within_range_of_support_spot = 15.0
+min_pass_distance = 120.0
+goalkeeper_min_pass_distance = 50.0
+goalkeeper_tending_distance = 20.0
+goalkeeper_intercept_range = 100.0
+ball_within_receiving_range = 10.0
+
+frame_rate = 60
+
+separation_coefficient = 10.0
+view_distance = 30.0
+non_penetration_constraint = false
