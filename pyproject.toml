@@ -27,7 +27,12 @@ target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "RUF", "PL", "PTH"]
-ignore = ["PLR2004"]  # magic numbers are everywhere in game/AI tuning code
+ignore = [
+    "PLR2004",  # magic numbers are everywhere in game/AI tuning code
+    "PLR0911",  # match-based dispatchers (behaviors, messages) are flat return chains
+    "PLR0912",
+    "PLR0913",  # entity constructors and physics helpers naturally take many parameters
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -40,6 +45,3 @@ files = ["src", "tests"]
 [[tool.mypy.overrides]]
 module = ["arcade.*", "pyglet.*"]
 ignore_missing_imports = true
-
-[tool.ruff.lint.per-file-ignores]
-"tools/*" = ["PLR0911", "PLR0912"]  # tag dispatchers read best as flat if/return chains

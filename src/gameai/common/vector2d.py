@@ -111,7 +111,8 @@ class Vector2D:
         return math.hypot(other.x - self.x, other.y - self.y)
 
     def distance_sq(self, other: Vector2D) -> float:
-        return (other - self).length_sq()
+        dx, dy = other.x - self.x, other.y - self.y
+        return dx * dx + dy * dy
 
     def reflect(self, normal: Vector2D) -> Vector2D:
         """This vector bounced off a surface with the given unit ``normal``."""
@@ -131,6 +132,7 @@ class Vector2D:
 
 
 ZERO = Vector2D()
+UNIT_X = Vector2D(1.0, 0.0)
 
 
 def wrap_around(pos: Vector2D, max_x: float, max_y: float) -> Vector2D:
