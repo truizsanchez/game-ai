@@ -1,0 +1,62 @@
+# Chapter 3 parameters (C++ params.ini). Forces and weights are multiplied by
+# steering_force_tweaker when loaded, exactly as the C++ ParamLoader does.
+
+num_agents = 300
+num_obstacles = 7
+min_obstacle_radius = 10
+max_obstacle_radius = 30
+
+# cell-space partitioning grid
+num_cells_x = 7
+num_cells_y = 7
+
+# samples the heading smoother averages
+num_samples_for_smoothing = 10
+
+steering_force_tweaker = 200.0
+steering_force = 2.0
+max_speed = 150.0
+vehicle_mass = 1.0
+vehicle_scale = 3.0
+max_turn_rate_per_second = 3.141592653589793
+
+# how close a neighbor must be before an agent perceives it
+view_distance = 50.0
+# obstacle avoidance
+min_detection_box_length = 40.0
+# wall avoidance
+wall_detection_feeler_length = 40.0
+# path following
+waypoint_seek_distance = 20.0
+
+# how much each behavior contributes to the total steering force
+[weights]
+separation = 1.0
+alignment = 1.0
+cohesion = 2.0
+obstacle_avoidance = 10.0
+wall_avoidance = 10.0
+wander = 1.0
+seek = 1.0
+flee = 1.0
+arrive = 1.0
+pursuit = 1.0
+offset_pursuit = 1.0
+interpose = 1.0
+hide = 1.0
+evade = 0.01
+follow_path = 0.05
+
+# probability of evaluating each behavior with the prioritized dithering method
+[probabilities]
+wall_avoidance = 0.5
+obstacle_avoidance = 0.5
+separation = 0.2
+alignment = 0.3
+cohesion = 0.6
+wander = 0.8
+seek = 0.8
+flee = 0.6
+evade = 1.0
+hide = 0.8
+arrive = 0.5

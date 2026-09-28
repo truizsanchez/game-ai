@@ -62,7 +62,7 @@ Progress: `[x]` merged into `main`, `[ ]` pending.
 - Console-only first (as in the book): WestWorld1 → WithWoman → WithMessaging (telegrams, dispatcher, delayed messages).
 - Pythonic FSM: states as singletons/objects vs. Enum + match; global/previous state, blips. Optional arcade text view.
 
-**[ ] Phase 3 — Ch.3 Autonomous moving agents (Steering)**
+**[x] Phase 3 — Ch.3 Autonomous moving agents (Steering)**
 - Vehicle/MovingEntity, all steering behaviors (seek, flee, arrive, pursuit, evade, wander, obstacle/wall avoidance,
   interpose, hide, path following, offset pursuit, flocking), combination strategies, cell-space partitioning, smoothing.
 - arcade interactive demo with toggles (as the original's menu).

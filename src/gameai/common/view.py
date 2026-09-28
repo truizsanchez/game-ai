@@ -11,11 +11,13 @@ rate, as the book recommends in chapter 1. Common keys:
 
 from __future__ import annotations
 
+import itertools
 import math
 from collections.abc import Sequence
 from typing import ClassVar
 
 import arcade
+from PIL import Image, ImageDraw
 
 from gameai.common.vector2d import Vector2D
 
@@ -133,3 +135,40 @@ def draw_circle(
 
 def draw_polygon(points: Sequence[Vector2D], color: Color) -> None:
     arcade.draw_polygon_filled([(p.x, p.y) for p in points], color)
+
+
+def draw_polyline(points: Sequence[Vector2D], color: Color, *, closed: bool = False) -> None:
+    for a, b in itertools.pairwise(points):
+        draw_line(a, b, color)
+    if closed and len(points) > 2:
+        draw_line(points[-1], points[0], color)
+
+
+def _triangle_texture(size: int = 64) -> arcade.Texture:
+    """A white dart pointing along +x, drawn once and tinted per sprite."""
+    image = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    ImageDraw.Draw(image).polygon(
+        [(0, size * 0.2), (size - 1, size / 2), (0, size * 0.8)], fill=(255, 255, 255, 255)
+    )
+    return arcade.Texture(image, hash="gameai-vehicle-triangle")
+
+
+class VehicleSprites:
+    """Many oriented triangles drawn in one batch: far faster than one polygon call each."""
+
+    def __init__(self) -> None:
+        self._texture = _triangle_texture()
+        self._sprites: arcade.SpriteList[arcade.Sprite] = arcade.SpriteList()
+
+    def draw(self, vehicles: Sequence[tuple[Vector2D, Vector2D, float, Color]]) -> None:
+        """Draw ``(position, heading, radius, color)`` for each vehicle."""
+        while len(self._sprites) < len(vehicles):
+            self._sprites.append(arcade.Sprite(self._texture))
+        while len(self._sprites) > len(vehicles):
+            self._sprites.pop()
+        for sprite, (position, heading, radius, color) in zip(self._sprites, vehicles, strict=True):
+            sprite.position = (position.x, position.y)
+            sprite.angle = -math.degrees(math.atan2(heading.y, heading.x))
+            sprite.width = sprite.height = radius * 2
+            sprite.color = color
+        self._sprites.draw()
