@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, ClassVar
 
 from gameai.common.triggers import CircleRegion
 from gameai.common.vector2d import Vector2D
+from gameai.raven import weapon_fuzzy
 from gameai.raven.entity_types import EntityType
 from gameai.raven.items import SoundNotify
 from gameai.raven.params import WeaponParams
@@ -32,6 +33,7 @@ class Weapon:
     def __post_init__(self) -> None:
         self.rounds_left = self.params.default_rounds
         self.time_next_available = self.owner.world.clock()
+        self.fuzzy_module = weapon_fuzzy.MODULE_BUILDERS[self.type]()
 
     @property
     def ideal_range(self) -> float:
@@ -82,16 +84,14 @@ class Weapon:
         )
 
     def desirability(self, distance_to_target: float) -> float:
-        """How good this weapon is right now, 0-100.
-
-        A crisp stand-in until chapter 10 replaces it with fuzzy logic: the closer the target
-        is to the weapon's ideal range, the better; no ammo, no use.
-        """
+        """How good this weapon is right now, 0-100, from its fuzzy module (chapter 10)."""
         if not self.has_ammo():
             self.last_desirability = 0.0
         else:
-            off_ideal = abs(distance_to_target - self.ideal_range) / self.ideal_range
-            self.last_desirability = 100 * max(0.0, 1 - off_ideal)
+            ammo = None if self.unlimited_ammo else self.rounds_left
+            self.last_desirability = weapon_fuzzy.desirability(
+                self.fuzzy_module, distance_to_target, ammo
+            )
         return self.last_desirability
 
 

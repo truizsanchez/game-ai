@@ -88,7 +88,7 @@ Progress: `[x]` merged into `main`, `[ ]` pending.
 **[x] Phase 9 — Ch.9 Goal-driven agent behavior**
 - Composite goals (think → evaluators → subgoals), arbitration, goal queueing, hierarchical debugging display.
 
-**[ ] Phase 10 — Ch.10 Fuzzy logic**
+**[x] Phase 10 — Ch.10 Fuzzy logic**
 - Fuzzy sets/variables/rules/module, hedges, defuzzification (MaxAv, centroid), Combs method; weapon selection in Raven.
 
 **[ ] Phase 11 (optional) — Wrap-up**
