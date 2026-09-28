@@ -12,12 +12,15 @@ from typing import ClassVar
 
 import arcade
 
+from gameai.common.goals import CompositeGoal
 from gameai.common.transformations import world_transform
 from gameai.common.vector2d import Vector2D
 from gameai.common.view import HEIGHT, WIDTH, Color, Demo, draw_circle, draw_line, draw_polygon
 from gameai.raven.bot import SHAPE, RavenBot
 from gameai.raven.entity_types import EntityType
 from gameai.raven.game import RavenGame, original_map
+from gameai.raven.goal_think import GoalThink
+from gameai.raven.goals import FollowPath
 from gameai.raven.items import HealthGiver, WeaponGiver
 from gameai.raven.navigation import smooth_precise, smooth_quick
 from gameai.raven.path_brain import PathBrain
@@ -206,6 +209,8 @@ class RavenDemo(Demo):
         if isinstance(bot.brain, PathBrain):
             for edge in bot.brain.path:
                 self.line(edge.source, edge.destination, arcade.color.BLUE, 2)
+        if isinstance(bot.brain, GoalThink):
+            self.draw_goals(bot.brain)
         draw_circle(screen(bot.position), (bot.bounding_radius + 3) * SCALE, color, filled=False)
         for opponent in bot.memory.recently_sensed_opponents():
             if opponent.is_alive:
@@ -217,6 +222,22 @@ class RavenDemo(Demo):
             c = screen(bot.target_bot.position)
             r = bot.target_bot.bounding_radius * SCALE + 3
             arcade.draw_lbwh_rectangle_outline(c.x - r, c.y - r, 2 * r, 2 * r, arcade.color.RED, 2)
+
+    def draw_goals(self, brain: GoalThink) -> None:
+        """The selected bot's goal stack and the latest evaluator scores (left panel)."""
+        y = 380.0
+        for evaluator in brain.evaluators:
+            self.label(f"{evaluator.label}: {evaluator.last_score:.2f}", Vector2D(10, y),
+                       arcade.color.LIGHT_GRAY)  # fmt: skip
+            y -= 14
+        y -= 10
+        for depth, goal in brain.describe():
+            color = arcade.color.YELLOW if goal.is_active else arcade.color.GRAY
+            self.label("  " * depth + goal.name, Vector2D(10, y), color)
+            y -= 14
+        for goal in _paths(brain):
+            for edge in goal.path:
+                self.line(edge.source, edge.destination, arcade.color.BLUE, 2)
 
     def status_line(self) -> str:
         game, bot = self.game, self.game.selected_bot
@@ -235,3 +256,14 @@ class RavenDemo(Demo):
             f"{base}  |  bot {bot.id} {mode}: health {bot.health}, "
             f"{weapon.type.label} ({ammo}), target {target}"
         )
+
+
+def _paths(goal: CompositeGoal[RavenBot]) -> list[FollowPath]:
+    """Every FollowPath goal in the stack, to draw the remaining path edges."""
+    found = []
+    for sub in goal.subgoals:
+        if isinstance(sub, FollowPath):
+            found.append(sub)
+        if isinstance(sub, CompositeGoal):
+            found.extend(_paths(sub))
+    return found

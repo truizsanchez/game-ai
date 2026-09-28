@@ -31,7 +31,7 @@ AT_POSITION_TOLERANCE = 10.0
 class Brain(Protocol):
     """The bot's decision making. Chapter 9's ``Goal_Think`` is the full implementation."""
 
-    def process(self) -> None: ...
+    def process(self) -> object: ...  # goal-based brains return their status
 
     def arbitrate(self) -> None: ...
 

@@ -173,7 +173,7 @@ def test_path_manager_shares_its_budget_round_robin(make_game: GameFactory) -> N
 
 # --- the chapter 8 brain -------------------------------------------------------------------------
 def test_bots_explore_by_following_paths(make_game: GameFactory) -> None:
-    game = make_game(bots=1)
+    game = make_game(bots=1, brain=PathBrain)
     bot = place(game.bots[0], 50, 150)
     assert isinstance(bot.brain, PathBrain)
     visited = set()
@@ -184,7 +184,7 @@ def test_bots_explore_by_following_paths(make_game: GameFactory) -> None:
 
 
 def test_possessed_bot_goes_to_the_clicked_position(make_game: GameFactory) -> None:
-    game = make_game(bots=1)
+    game = make_game(bots=1, brain=PathBrain)
     bot = place(game.bots[0], 50, 150)
     game.click_right(bot.position)
     game.click_right(bot.position)
@@ -196,7 +196,7 @@ def test_possessed_bot_goes_to_the_clicked_position(make_game: GameFactory) -> N
 
 
 def test_stuck_bot_replans(make_game: GameFactory) -> None:
-    game = make_game(bots=1)
+    game = make_game(bots=1, brain=PathBrain)
     bot = place(game.bots[0], 50, 150)
     brain = bot.brain
     assert isinstance(brain, PathBrain)

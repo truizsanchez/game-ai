@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from gameai.common.vector2d import Vector2D
-from gameai.raven.bot import RavenBot
+from gameai.raven.bot import Brain, RavenBot
 from gameai.raven.game import RavenGame
 
 # A 200x200 room (y-down, as in real map files) with a 3x3 navigation grid, two spawn points,
@@ -79,8 +79,13 @@ def door_path(tmp_path: Path) -> Path:
 
 @pytest.fixture
 def make_game(room_path: Path) -> Callable[..., RavenGame]:
-    def make(path: Path | None = None, bots: int = 2) -> RavenGame:
+    def make(
+        path: Path | None = None, bots: int = 2, brain: Callable[[RavenBot], Brain] | None = None
+    ) -> RavenGame:
         game = RavenGame(path or room_path, rng=random.Random(4))
+        if brain is not None:
+            game.brain_factory = brain
+            game.load_map(game.map_path)
         while len(game.bots) > bots:
             game.remove_bot()
         return game
