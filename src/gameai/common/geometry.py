@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from typing import NamedTuple
 
@@ -24,6 +25,22 @@ def segment_intersection(a: Vector2D, b: Vector2D, c: Vector2D, d: Vector2D) -> 
     if 0 < r < 1 and 0 < s < 1:
         return Intersection(ab.length() * r, a + ab * r)
     return None
+
+
+def tangent_points(
+    center: Vector2D, radius: float, point: Vector2D
+) -> tuple[Vector2D, Vector2D] | None:
+    """The two points where lines from ``point`` touch the circle, or None if it's inside."""
+    to_point = point - center
+    dist_sq = to_point.length_sq()
+    if dist_sq <= radius * radius:
+        return None
+    root = math.sqrt(dist_sq - radius * radius)
+    k = radius / dist_sq
+    rx, ry = radius * to_point.x, radius * to_point.y
+    t1 = center + Vector2D(rx - to_point.y * root, ry + to_point.x * root) * k
+    t2 = center + Vector2D(rx + to_point.y * root, ry - to_point.x * root) * k
+    return t1, t2
 
 
 def circles_overlap(c1: Vector2D, r1: float, c2: Vector2D, r2: float) -> bool:
