@@ -140,10 +140,18 @@ class AStarSearch(GraphSearch):
     name = "A*"
 
     def __init__(
-        self, graph: Graph, source: int, target: int | None = None, heuristic: Heuristic = euclidean
+        self,
+        graph: Graph,
+        source: int,
+        target: int | None = None,
+        heuristic: Heuristic = euclidean,
+        is_target: Callable[[int], bool] | None = None,
     ) -> None:
         super().__init__(graph, source, target)
         self.heuristic = heuristic
+        # A termination condition instead of a fixed target: the search stops at the first
+        # settled node that satisfies it (C++ ``SearchTerminationPolicies``).
+        self.is_target = is_target
         self.g_cost: dict[int, float] = {source: 0.0}  # best known cost from the source
         self.frontier: dict[int, GraphEdge] = {}  # best edge found so far into each node
         self.shortest_path_tree: dict[int, GraphEdge] = {}  # settled nodes
@@ -168,8 +176,8 @@ class AStarSearch(GraphSearch):
                 yield edge
             else:
                 self.shortest_path_tree.setdefault(node, GraphEdge(node, node, 0))
-            if node == self.target:
-                self.found = True
+            if node == self.target or (self.is_target is not None and self.is_target(node)):
+                self.target, self.found = node, True
                 break
             for edge in self.graph.edges_from(node):
                 to = edge.to_index
@@ -179,8 +187,6 @@ class AStarSearch(GraphSearch):
                     self.frontier[to] = edge
                     heapq.heappush(queue, (g + self._estimate(to), next(order), to))
         self.done = True
-        if self.target is None:
-            self.found = False
 
     @property
     def cost_to_target(self) -> float:
@@ -195,5 +201,11 @@ class DijkstraSearch(AStarSearch):
 
     name = "Dijkstra"
 
-    def __init__(self, graph: Graph, source: int, target: int | None = None) -> None:
-        super().__init__(graph, source, target, heuristic=zero)
+    def __init__(
+        self,
+        graph: Graph,
+        source: int,
+        target: int | None = None,
+        is_target: Callable[[int], bool] | None = None,
+    ) -> None:
+        super().__init__(graph, source, target, heuristic=zero, is_target=is_target)

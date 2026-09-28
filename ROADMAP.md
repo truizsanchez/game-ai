@@ -82,7 +82,7 @@ Progress: `[x]` merged into `main`, `[ ]` pending.
 - Map loading (reuse original `.map` files), bots, weapons, projectiles, triggers, sensory memory, target selection;
   arcade rendering. Bots initially dumb — AI added in 8–10.
 
-**[ ] Phase 8 — Ch.8 Practical path planning**
+**[x] Phase 8 — Ch.8 Practical path planning**
 - Navgraph from map, path smoothing, time-sliced path planning (generators), path manager, edge annotations, graph search as a service.
 
 **[ ] Phase 9 — Ch.9 Goal-driven agent behavior**

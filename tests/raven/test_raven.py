@@ -264,8 +264,8 @@ def test_removed_bot_is_forgotten(make_game: GameFactory) -> None:
 
 
 def test_possession_by_clicks(make_game: GameFactory) -> None:
-    game = make_game()
-    bot, _ = game.bots
+    game = make_game(bots=1)  # alone, so nobody shoots or pushes it
+    [bot] = game.bots
     place(bot, 50, 100)
     game.click_right(Vector2D(50, 100))
     assert game.selected_bot is bot
