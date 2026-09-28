@@ -70,7 +70,7 @@ Progress: `[x]` merged into `main`, `[ ]` pending.
 **[x] Phase 4 — Ch.4 Sports simulation (Simple Soccer)**
 - Pitch, ball physics, teams/players with FSMs + messaging + steering (reuses Phases 2–3), support spots, params file (TOML).
 
-**[ ] Phase 5 — Ch.5 The secret life of graphs**
+**[x] Phase 5 — Ch.5 The secret life of graphs**
 - Sparse graph, nodes/edges, navgraphs; DFS, BFS, Dijkstra, A* (heuristics), time-sliced search groundwork.
   Pythonic: generators for search steps (great for visualizing), `heapq`. arcade Pathfinder tool (paint terrain, pick algorithm).
 
