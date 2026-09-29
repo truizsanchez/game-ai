@@ -74,6 +74,19 @@ Run: `uv run python -m gameai.ch03_steering` (keys `1`–`8` switch demo, `H` he
 - **`MovingEntity::IsSpeedMaxedOut`** has its comparison reversed; it isn't needed and wasn't
   ported.
 
+## Tests
+
+- `tests/common/test_steering.py`: each behavior on its own. Seek, flee and arrive from rest
+  and near the target, pursuit leading a crossing target, evade ignoring distant pursuers,
+  the wander target staying on its circle, obstacle and wall avoidance, the group behaviors,
+  interpose, hide (and evading when there's nowhere to hide), offset pursuit and path
+  following.
+- `tests/common/test_spatial.py`: the cell space partition against brute force, the
+  smoother, segment and circle tests, and non-penetration.
+- `tests/ch03_steering/test_combining.py`: the three summing methods (weighted sum,
+  prioritized with a force budget, dithered), neighbors with and without partitioning, and
+  a crowded world where vehicles stay inside the walls and rarely touch obstacles.
+
 ## Performance note
 
 Python is slower than C++. `Vector2D` is immutable, so every operation allocates a new object;

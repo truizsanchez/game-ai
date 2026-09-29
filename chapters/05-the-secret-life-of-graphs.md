@@ -59,3 +59,12 @@ the maps aren't available (e.g. in CI).
 - **C++ bug not ported:** `UpdateGraphFromBrush` computes a cell's row with `CellIndex /
   m_iCellsY` (it should divide by the number of columns). This only works because the default
   grid is square.
+
+## Tests
+
+- `tests/common/test_graph.py`: the graph (undirected and directed edges, removing nodes
+  without shifting indices, grids with eight neighbors) and the searches: DFS finds a path,
+  BFS the fewest edges, Dijkstra and A\* the cheapest one, A\* expanding fewer nodes than
+  Dijkstra, the heuristics, and `steps()` yielding one tree edge at a time.
+- `tests/ch05_graphs/test_pathfinder.py`: painting obstacles and water, a blocked source,
+  saving and loading maps, and the ranking on the original map shown above.
