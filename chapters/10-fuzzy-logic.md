@@ -51,3 +51,11 @@ neither does the port.
 - **Weapon selection** in Raven now uses these modules (MaxAv, as the C++ weapons do). This
   replaces the crisp stand-in of chapter 7. Every weapon builds its own module when it's
   created.
+
+## Tests
+
+- `tests/common/test_fuzzy.py`: the membership functions, operators and hedges, clamping,
+  and the chapter's worked example (the rocket launcher at 200 pixels with 8 rockets) with
+  the values in the table above (within the book's rounding), including the Combs method.
+- `tests/raven/test_weapon_fuzzy.py`: the shotgun wins at close range, the rail gun at long
+  range and the rocket launcher peaks in between; more ammo is more desirable; empty weapons score zero, and bots in a game use these modules.

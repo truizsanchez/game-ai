@@ -71,3 +71,13 @@ home again. Try fixing it live as a first hot-reload exercise.
   ruff and mypy: they use names the host injects, which the checkers can't see.
 - **Performance** isn't a concern here, unlike C++ ↔ Lua: the scripts run on the same
   interpreter as the game.
+
+## Tests
+
+`tests/ch06_scripting/test_scripting.py` covers:
+- **`Script`:** globals and functions, the host API seen from the script, errors on the first
+  load and inside script functions, hot reload, and a broken edit keeping the previous
+  version.
+- **The examples:** their results, including rock-paper-scissors with the host's rules.
+- **The scripted miner:** it follows the book's sequence, a reload changes its behavior, and
+  changing to an unknown state fails.

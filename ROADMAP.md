@@ -91,8 +91,9 @@ Progress: `[x]` merged into `main`, `[ ]` pending.
 **[x] Phase 10 — Ch.10 Fuzzy logic**
 - Fuzzy sets/variables/rules/module, hedges, defuzzification (MaxAv, centroid), Combs method; weapon selection in Raven.
 
-**[ ] Phase 11 (optional) — Wrap-up**
-- Appendices only where relevant (C++ templates/UML → skip or replace with Python notes), cross-chapter refactors, docs polish.
+**[x] Phase 11 (optional) — Wrap-up: docs only**
+- Appendices replaced by `chapters/appendices.md`; README demo table and layout; chapter index with cross-links; missing Tests sections.
+- Cross-chapter refactors (a shared steering selector, one TOML params loader) were considered and left out.
 
 ## Working method (every chapter phase)
 1. Read the chapter's markdown + C++ reference (Java only as tie-breaker for readability); write `chapters/NN-*.md` outline mirroring the book sections.
