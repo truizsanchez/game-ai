@@ -5,6 +5,9 @@ visualized with [arcade](https://api.arcade.academy/). The goal is learning: eac
 follows the book's structure, but the code is idiomatic Python rather than a line-by-line
 translation of the C++. See [ROADMAP.md](ROADMAP.md) for the phases.
 
+This is an unofficial, non-commercial learning project, not affiliated with the author or the
+publisher. The book isn't included; if you find this useful, get a copy of the book.
+
 ## Setup
 
 ```sh
@@ -29,8 +32,9 @@ The original C++ source is the primary reference (the Java port is only a tie-br
 | 9. Goal-Driven Agent Behavior | Raven `goals/` | `Goals` | `gameai.raven` |
 | 10. Fuzzy Logic | Raven `armory/` | `fuzzy` | `gameai.raven`, `gameai.ch10_fuzzy` |
 
-Parameter files (`Params.ini`, `Params.lua`) are converted to TOML. Original `.map` files are
-loaded from the private source directory rather than copied here.
+Parameter files (`Params.ini`, `Params.lua`) are converted to TOML. The two Raven maps are
+included unchanged in `src/gameai/raven/maps/`, with a note on their copyright; the
+Pathfinder's example maps are loaded from the private source directory.
 
 The book's appendices (C++ templates, UML, setup) aren't ported; see
 [chapters/appendices.md](chapters/appendices.md) for what replaces them.
@@ -50,9 +54,9 @@ Each demo opens an arcade window; press `H` to show or hide the keys.
 | 7–10 | `uv run python -m gameai.raven` | Raven: path planning, goals, fuzzy weapon selection |
 | 10 | `uv run python -m gameai.ch10_fuzzy` | the rocket launcher's fuzzy desirability |
 
-Raven needs the original `.map` files from the C++ source in `../game-ai-private/`
-(override with `GAMEAI_ORIGINAL_SOURCE`). The Pathfinder uses them only for `L`, and the
-tests that need them are skipped when they're missing.
+The Pathfinder's `L` key cycles through the original chapter 5 maps, read from the C++
+source in `../game-ai-private/` (override with `GAMEAI_ORIGINAL_SOURCE`); the test that
+needs them is skipped when they're missing.
 Each chapter note lists the demo's keys.
 
 ## Repository layout
@@ -79,3 +83,9 @@ uv run tools/chm_to_md.py --chm path/to/book.chm --out ../game-ai-private/book-m
 ```
 
 It needs a 7-Zip binary (`7zz`/`7z`) on `PATH`, or pass `--sevenzip`.
+
+## License
+
+The code in this repository is under the [MIT License](LICENSE). The book, its text and
+figures, the original C++ source and the Raven maps in `src/gameai/raven/maps/` remain the
+property of their copyright holders and are not covered by it.

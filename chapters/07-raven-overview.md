@@ -1,7 +1,7 @@
 # Chapter 7 — Raven: An Overview
 
-Run: `uv run python -m gameai.raven`. It loads the original maps from the private sources
-directory; set `GAMEAI_ORIGINAL_SOURCE` if they live elsewhere.
+Run: `uv run python -m gameai.raven`. It uses the two original maps, shipped unchanged in
+`src/gameai/raven/maps/` (see the README there for their copyright).
 
 - **Selecting and possessing:** right-click a bot to select it; right-click it again to
   possess it.
@@ -84,8 +84,7 @@ New in `gameai.common`:
 ## Tests
 
 `tests/raven` builds small synthetic maps in the original format: a room with items, and a
-corridor with a door and switch. CI doesn't have the original maps, and the synthetic ones
-also exercise the loader. Covered:
+corridor with a door and switch. They keep each test small and exercise the loader. Covered:
 - map loading and coordinate conversion;
 - items attached to graph nodes, and IDs;
 - the path cost table;
@@ -101,4 +100,4 @@ also exercise the loader. Covered:
 - head turn rate;
 - a full match.
 
-A final test loads the two original maps when they're available.
+A final test loads the two original maps.

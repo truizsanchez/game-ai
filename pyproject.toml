@@ -6,6 +6,8 @@ authors = [
     { name = "truizsanchez" }
 ]
 requires-python = ">=3.13"
+license = "MIT"
+license-files = ["LICENSE"]
 dependencies = [
     "arcade>=3.3.3",
 ]
