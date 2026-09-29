@@ -9,7 +9,6 @@ from pathlib import Path
 
 from gameai.common.geometry import walls_intersect_circle, walls_obstruct_segment
 from gameai.common.messaging import SENDER_IRRELEVANT, EntityRegistry, MessageDispatcher, Receiver
-from gameai.common.sources import original_file
 from gameai.common.vector2d import Vector2D, is_in_fov
 from gameai.raven.bot import Brain, RavenBot
 from gameai.raven.entity_types import BotStatus, EntityType, Message
@@ -20,12 +19,12 @@ from gameai.raven.navigation import PathManager
 from gameai.raven.params import Params, load
 from gameai.raven.projectiles import Projectile
 
-RAVEN_DIR = "Buckland_Chapter7 to 10_Raven"
+MAPS_DIR = Path(__file__).parent / "maps"
 
 
-def original_map(name: str) -> Path | None:
-    """A map from the original distribution (not copied into this repository)."""
-    return original_file(RAVEN_DIR, "maps", name)
+def original_map(name: str) -> Path:
+    """One of the original Raven maps shipped in ``raven/maps`` (see its README)."""
+    return MAPS_DIR / name
 
 
 @dataclass(eq=False)

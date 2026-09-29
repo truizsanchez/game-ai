@@ -74,10 +74,7 @@ class RavenDemo(Demo):
         self.game = self._new_game()
 
     def _new_game(self) -> RavenGame:
-        path = original_map(MAPS[self.map_index])
-        if path is None:
-            raise SystemExit("Raven maps not found: set GAMEAI_ORIGINAL_SOURCE")
-        return RavenGame(path, rng=random.Random())
+        return RavenGame(original_map(MAPS[self.map_index]), rng=random.Random())
 
     # --- input ---------------------------------------------------------------------------------
     def step(self, dt: float) -> None:

@@ -1,12 +1,12 @@
 # Roadmap: "Programming Game AI by Example" → idiomatic Python (arcade)
 
 ## Context
-New, empty private repo `truizsanchez/game-ai` (verified: PRIVATE, empty). Goal: educational port of
+New, empty repo `truizsanchez/game-ai`. Goal: educational port of
 Mat Buckland's book to **Pythonic** code (not a line-by-line C++ translation), using
 [arcade](https://api.arcade.academy/) for visualization, following the book chapter by chapter.
 Python internals are assumed knowledge unless explicitly requested.
 
-Source material (`/home/eldelbar/code/game-ai-private`):
+Source material (`../game-ai-private/`, outside the repo):
 - `Programming_Game_AI_by_Example.chm` — the book (ITSF/CHM format).
 - `Programming-Game-AI-by-Example-src-master/` — **original C++ source, the primary reference** (wins on any doubt).
   Per-chapter dirs (Ch2 WestWorld1/WithWoman/WithMessaging, Ch3 Steering, Ch4 SimpleSoccer + `Params.ini`,

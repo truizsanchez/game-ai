@@ -297,15 +297,12 @@ def test_a_match_on_the_synthetic_map_runs(make_game: GameFactory) -> None:
     assert all(0 <= b.position.x <= 200 and 0 <= b.position.y <= 200 for b in game.bots)
 
 
-@pytest.mark.skipif(original_map("Raven_DM1.map") is None, reason="original maps not available")
 def test_original_maps_load() -> None:
     for name, nodes, walls, doors in (
         ("Raven_DM1.map", 340, 58, 0),
         ("Raven_DM1_With_Doors.map", 29, 64, 3),
     ):
-        path = original_map(name)
-        assert path is not None
-        game = RavenGame(path)
+        game = RavenGame(original_map(name))
         assert game.map.graph.num_active_nodes == nodes
         assert len(game.map.walls) == walls
         assert len(game.map.doors) == doors
